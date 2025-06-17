@@ -2,15 +2,21 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import evaluationRoutes from './routes/evaluation.js'; // Corrected import path and added .js
-import { PrismaClient } from '@prisma/client'; // Import PrismaClient for connection check
+import path from 'path'; 
+import { fileURLToPath } from 'url'; 
+import evaluationRoutes from './routes/evaluation.js'; 
+import { PrismaClient } from '@prisma/client'; 
 
-// Load environment variables from .env file
-dotenv.config();
+// Get __dirname equivalent in ES Modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Load environment variables from .env file, explicitly specifying path
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 const app = express();
 const PORT = process.env.PORT || 3001; // Default to 3001 if PORT not set in .env
-const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173';
+const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:3000'; // Ensure default matches frontend
 
 // Initialize Prisma Client for database connection checking
 const prisma = new PrismaClient();
@@ -19,7 +25,7 @@ const prisma = new PrismaClient();
 // Enable CORS for specified origin
 app.use(cors({
   origin: FRONTEND_URL,
-  credentials: true // Allow cookies/authorization headers to be sent
+  credentials: true 
 }));
 
 // Parse JSON request bodies with a limit

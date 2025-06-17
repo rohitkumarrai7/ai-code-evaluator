@@ -1,4 +1,3 @@
-// backend/prisma/schema.prisma
 generator client {
   provider = "prisma-client-js"
 }
@@ -9,15 +8,15 @@ datasource db {
 }
 
 model Evaluation {
-  id             String    @id @default(cuid()) // Changed to cuid() as per your input
+  id             String   @id @default(uuid())
   taskName       String
-  submissionType String    // 'code' or 'image'
-  code           String?   @db.Text
-  imageUrl       String?   // Stores URL/path if image is saved persistently
+  submissionType String
+  code           String? @db.Text
+  imageUrl       String?
   score          Int
-  feedback       String    @db.Text // Storing as String, consider Json? for structured feedback
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+  feedback       String @db.Text
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
   @@map("evaluations")
 }

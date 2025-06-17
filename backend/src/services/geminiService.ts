@@ -47,7 +47,7 @@ IMPORTANT: Respond ONLY with valid JSON. Do not include any other text or format
 export class GeminiService {
   static async evaluateSubmission(request: GeminiEvaluationRequest): Promise<GeminiApiResponse> {
     try {
-      const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+      const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash-preview-05-20' });
 
       let submissionContent = '';
       if (request.submissionType === 'code' && request.code) {
@@ -60,12 +60,9 @@ export class GeminiService {
 
       const prompt = `Task Name: "${request.taskName}"\n\n${submissionContent}\n\n${EVALUATION_PROMPT}`;
 
-      console.log('Sending prompt to Gemini AI...');
       const result = await model.generateContent(prompt);
       const response = await result.response;
       const text = response.text();
-
-      console.log('Raw Gemini API Response:', text); // Log raw response for debugging
 
       // Robustly extract JSON from the response text
       const jsonMatch = text.match(/\{[\s\S]*\}/);
