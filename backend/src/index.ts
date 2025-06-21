@@ -12,7 +12,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Load environment variables from .env file, explicitly specifying path
-dotenv.config({ path: path.resolve(__dirname, '../.env') });
+dotenv.config({ path: path.resolve(__dirname, '../backend.env') });
 
 const app = express();
 const PORT = process.env.PORT || 3001; // Default to 3001 if PORT not set in .env
